@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".SunflowerApplication"
         android:theme="@style/Theme.Sunflower">
         <activity android:name=".GardenActivity">
             <intent-filter>
