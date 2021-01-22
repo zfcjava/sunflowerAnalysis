@@ -5,6 +5,7 @@ import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.dirk.sunfloweranalysis.workers.SeedDatabaseWorker
 import com.google.samples.apps.sunflower.utilities.DATABASE_NAME
 
 
@@ -37,8 +38,8 @@ abstract class AppDatabase  :RoomDatabase(){
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             //TODO 当数据库创建成功，需要将本地mock的JSON数据插入
-//                            val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build()
-//                            WorkManager.getInstance(context).enqueue(request)
+                            val request = OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build()
+                            WorkManager.getInstance(context).enqueue(request)
                         }
                     })
                     .build()
