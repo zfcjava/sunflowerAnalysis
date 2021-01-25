@@ -18,25 +18,24 @@ fun call(){
 
 fun startMyCouroutine(bolck:suspend()->Unit){
     //suspend方法对象的扩展方法
-    bolck.startCoroutine(BaseContinuation())
+    bolck.startCoroutine(ContextContinuation(AsyncContext()))
 }
 
 suspend fun loadImage(url: String) = suspendCoroutine<ByteArray> {
     continuation ->
 
-    val uiContinuation = UiContinuationWrapper(continuation)
 //    val responseBody =
     AsyncTask{
         try {
             // 假设请求成功
             if(url!= ""){
                 //因为外层有AsyncTask，切回到主线
-                uiContinuation.resume("ok".encodeToByteArray())
+                continuation.resume("ok".encodeToByteArray())
             } else {
-                uiContinuation.resumeWithException(RuntimeException("http error"))
+                continuation.resumeWithException(RuntimeException("http error"))
             }
         } catch (e:Exception){
-            uiContinuation.resumeWithException(e)
+            continuation.resumeWithException(e)
         }
     }.execute()
 
