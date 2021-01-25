@@ -2,34 +2,32 @@ package com.dirk.sunfloweranalysis.coroutine.async
 
 import java.lang.Exception
 import java.lang.RuntimeException
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.startCoroutine
-import kotlin.coroutines.suspendCoroutine
+import kotlin.coroutines.*
 
 fun call(){
-    startMyCouroutine {
+    startMyCouroutine (DownloadContext("123")){
         ioOperation {
-            val result = loadImage("123")
+            //TODO 这里为什么会这样？
+            val result = loadImage(this[DownloadContext]!!.url)
             //接下来使用 result
             //TODO 注意协程不会帮助我们切换线程，需要手动切换线程
         }
     }
 }
 
-fun startMyCouroutine(bolck:suspend()->Unit){
+fun startMyCouroutine(context: CoroutineContext = EmptyCoroutineContext,bolck:suspend()->Unit){
     //suspend方法对象的扩展方法
-    bolck.startCoroutine(ContextContinuation(AsyncContext()))
+    bolck.startCoroutine(ContextContinuation(context+AsyncContext()))
 }
 
 
-suspend fun <T>ioOperation(block:()->T) = suspendCoroutine<T> {
+suspend fun <T>ioOperation(block:CoroutineContext.()->T) = suspendCoroutine<T> {
     continuation ->
 
 //    val responseBody =
     AsyncTask{
         try {
-            continuation.resume(block())
+            continuation.resume(block(continuation.context))
         } catch (e:Exception){
             continuation.resumeWithException(e)
         }

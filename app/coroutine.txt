@@ -20,5 +20,20 @@
 # 二、 图片下载案例一
 注意协程不会帮助我们切换线程，需要手动切换线程
 
-# 二、 图片下载案例二
+# 三、 图片下载案例二
 注意协程不会帮助我们切换线程，需要手动切换线程
+
+# 四、 协程的基本API
+## 4.1 协程的基本API
+    createCoroutine： 创建协程
+    startCoroutine：启动协程 （如果没有，则先创建）
+    suspendCoroutine：挂起协程
+
+## 4.2 Continuation接口
+       运行控制类,负责结果和异常返回
+## 4.3 CoroutineContext
+       持有资源，调用运行
+## 4.4 CoroutineIntercepter
+       协程控制拦截器
+       可用来出来协程调用
+# 五、协程原理剖析
